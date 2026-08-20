@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: board-crud-postgres
+    environment:
+      POSTGRES_DB: board_crud
+      POSTGRES_USER: board
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - board-crud-postgres-data:/var/lib/postgresql/data
+
+volumes:
+  board-crud-postgres-data:
