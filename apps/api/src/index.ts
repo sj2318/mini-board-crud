@@ -5,7 +5,7 @@ import postRoutes from "./routes/post.routes.js";
 
 
 const app = express();
-const port = Number(process.env.API_PORT) || 4000;
+const port = Number(process.env.PORT || process.env.API_PORT) || 4000;
 
 
 // FrontEnd 요청 허용
@@ -53,6 +53,6 @@ app.use("/api/posts", postRoutes);
 
 
 // 서버 실행
-app.listen(port, () => {
-  console.log(`API server running on http://localhost:${port}`);
+app.listen(port, "0.0.0.0", () => {
+  console.log(`API server running on port ${port}`);
 });
