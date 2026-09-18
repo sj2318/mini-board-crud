@@ -1,4 +1,4 @@
-After6 - 퇴근 후 뭐하지?
+# After6 - 퇴근 후 뭐하지?
 
 Next.js, Express, PostgreSQL을 사용해서 만든 간단한 게시판 CRUD 프로젝트입니다.
 
@@ -6,66 +6,57 @@ Next.js, Express, PostgreSQL을 사용해서 만든 간단한 게시판 CRUD 프
 
 서비스는 AWS EC2에 배포했으며, Nginx를 통해 FrontEnd와 BackEnd를 연결했습니다.
 
-주요 기능
+---
 
-게시글 목록 조회
+## 주요 기능
 
-게시글 상세 조회
+- 게시글 목록 조회
+- 게시글 상세 조회
+- 게시글 작성
+- 게시글 수정
+- 게시글 삭제
+- FrontEnd / BackEnd API 연동
+- PostgreSQL 데이터 저장 및 조회
+- AWS EC2 외부 배포
 
-게시글 작성
+---
 
-게시글 수정
+## 기술 스택
 
-게시글 삭제
+### FrontEnd
 
-FrontEnd / BackEnd API 연동
+- Next.js 15
+- React 19
+- TypeScript
 
-PostgreSQL 데이터 저장 및 조회
+### BackEnd
 
-AWS EC2 외부 배포
+- Node.js
+- Express 5
+- TypeScript
 
-기술 스택
+### Database
 
-FrontEnd
+- PostgreSQL 16
 
-Next.js 15
+### 개발 환경
 
-React 19
+- Yarn 4
+- Docker Compose
+- VS Code
 
-TypeScript
+### 배포 환경
 
-BackEnd
+- AWS EC2
+- Ubuntu
+- Nginx
+- Docker
 
-Node.js
+---
 
-Express 5
+## 프로젝트 구조
 
-TypeScript
-
-Database
-
-PostgreSQL 16
-
-개발 환경
-
-Yarn 4
-
-Docker Compose
-
-VS Code
-
-배포 환경
-
-AWS EC2
-
-Ubuntu
-
-Nginx
-
-Docker
-
-프로젝트 구조
-
+```text
 mini-board-crud/
 │
 ├─ apps/
@@ -128,11 +119,15 @@ mini-board-crud/
 ├─ .env.example
 ├─ package.json
 └─ yarn.lock
+```
 
-BackEnd 구조
+---
+
+## BackEnd 구조
 
 BackEnd는 역할별로 분리하여 구성했습니다.
 
+```text
 Request
   ↓
 Routes
@@ -144,121 +139,67 @@ Service
 Mapper
   ↓
 PostgreSQL
+```
 
-역할
+### 역할
 
-routes
+- `routes`
+  - API URL과 HTTP Method를 Controller에 연결합니다.
 
-API URL과 HTTP Method를 Controller에 연결합니다.
+- `controller`
+  - 요청값을 받고 유효성을 확인한 뒤 Service를 호출합니다.
 
-controller
+- `service`
+  - 게시글 관련 비즈니스 로직을 처리합니다.
 
-요청값을 받고 유효성을 확인한 뒤 Service를 호출합니다.
+- `mapper`
+  - PostgreSQL에 실행할 SQL을 작성하고 조회/등록/수정/삭제를 처리합니다.
 
-service
+- `dto`
+  - 게시글 등록 및 수정 요청에 사용하는 데이터 구조를 정의합니다.
 
-게시글 관련 비즈니스 로직을 처리합니다.
+- `vo`
+  - 데이터베이스에서 조회한 게시글 데이터 구조를 정의합니다.
 
-mapper
+- `db.ts`
+  - PostgreSQL 연결 설정을 담당합니다.
 
-PostgreSQL에 실행할 SQL을 작성하고 조회/등록/수정/삭제를 처리합니다.
+- `index.ts`
+  - Express 애플리케이션 초기 설정과 API Route 등록을 담당합니다.
 
-dto
+---
 
-게시글 등록 및 수정 요청에 사용하는 데이터 구조를 정의합니다.
+## FrontEnd 화면 구성
 
-vo
+| 경로 | 기능 |
+| --- | --- |
+| `/` | `/main`으로 이동 |
+| `/main` | 게시글 목록 조회 |
+| `/write` | 게시글 작성 |
+| `/detail/[id]` | 게시글 상세 조회 |
+| `/edit/[id]` | 게시글 수정 |
 
-데이터베이스에서 조회한 게시글 데이터 구조를 정의합니다.
+---
 
-db.ts
+## API 구성
 
-PostgreSQL 연결 설정을 담당합니다.
+| Method | URL | 기능 |
+| --- | --- | --- |
+| GET | `/api/health` | BackEnd 상태 확인 |
+| GET | `/api/db-health` | Database 연결 상태 확인 |
+| GET | `/api/posts` | 게시글 목록 조회 |
+| GET | `/api/posts/:id` | 게시글 상세 조회 |
+| POST | `/api/posts` | 게시글 등록 |
+| PUT | `/api/posts/:id` | 게시글 수정 |
+| DELETE | `/api/posts/:id` | 게시글 삭제 |
 
-index.ts
+---
 
-Express 애플리케이션 초기 설정과 API Route 등록을 담당합니다.
+## 데이터베이스
 
-FrontEnd 화면 구성
+게시글 데이터는 PostgreSQL의 `posts` 테이블에 저장됩니다.
 
-경로
-
-기능
-
-/
-
-/main으로 이동
-
-/main
-
-게시글 목록 조회
-
-/write
-
-게시글 작성
-
-/detail/[id]
-
-게시글 상세 조회
-
-/edit/[id]
-
-게시글 수정
-
-API 구성
-
-Method
-
-URL
-
-기능
-
-GET
-
-/api/health
-
-BackEnd 상태 확인
-
-GET
-
-/api/db-health
-
-Database 연결 상태 확인
-
-GET
-
-/api/posts
-
-게시글 목록 조회
-
-GET
-
-/api/posts/:id
-
-게시글 상세 조회
-
-POST
-
-/api/posts
-
-게시글 등록
-
-PUT
-
-/api/posts/:id
-
-게시글 수정
-
-DELETE
-
-/api/posts/:id
-
-게시글 삭제
-
-데이터베이스
-
-게시글 데이터는 PostgreSQL의 posts 테이블에 저장됩니다.
-
+```sql
 CREATE TABLE posts (
     id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     title VARCHAR(200) NOT NULL,
@@ -266,33 +207,49 @@ CREATE TABLE posts (
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+```
 
-로컬 실행 방법
+---
 
-1. PostgreSQL 실행
+## 로컬 실행 방법
 
+### 1. PostgreSQL 실행
+
+```bash
 docker compose up -d postgres
+```
 
-2. BackEnd 실행
+### 2. BackEnd 실행
 
+```bash
 yarn workspace @guide/api dev
+```
 
 BackEnd 기본 주소:
 
+```text
 http://localhost:4000
+```
 
-3. FrontEnd 실행
+### 3. FrontEnd 실행
 
+```bash
 yarn workspace @guide/web dev
+```
 
 FrontEnd 기본 주소:
 
+```text
 http://localhost:3000
+```
 
-배포 구성
+---
+
+## 배포 구성
 
 AWS EC2 환경에서 다음 구조로 실행됩니다.
 
+```text
 사용자
   ↓
 Nginx :80
@@ -300,5 +257,18 @@ Nginx :80
   └─ /api     → Express :4000
                          ↓
                   PostgreSQL :5432
+```
 
 PostgreSQL은 EC2 내부의 Docker 컨테이너에서 실행됩니다.
+
+---
+
+## 서비스 URL
+
+http://3.39.106.91
+
+---
+
+## GitHub 저장소
+
+https://github.com/sj2318/mini-board-crud
