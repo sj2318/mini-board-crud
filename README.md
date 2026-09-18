@@ -262,13 +262,3 @@ Nginx :80
 PostgreSQL은 EC2 내부의 Docker 컨테이너에서 실행됩니다.
 
 ---
-
-## 서비스 URL
-
-http://3.39.106.91
-
----
-
-## GitHub 저장소
-
-https://github.com/sj2318/mini-board-crud
